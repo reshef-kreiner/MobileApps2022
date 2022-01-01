@@ -15,15 +15,17 @@ import org.json.JSONObject;
 
 public class PriceFetcher {
     private RequestQueue _queue;
-    private final static String REQUEST_URL = "http://127.0.0.10:8080/stockName";
+    private final static String REQUEST_URL = "http://10.0.2.2:8080/stock?symbol=";
 
     public class PriceResponse {
         public boolean isError;
-        public double stockPrice;
+        public String symbol;
+        public String stockPrice;
 
-        public PriceResponse(boolean isError, double stockPrice) {
+        public PriceResponse(boolean isError, String symbol, String stockPrice) {
             this.stockPrice = stockPrice;
             this.isError = isError;
+            this.symbol = symbol;
         }
     }
     public interface PriceResponseListener {
@@ -36,18 +38,18 @@ public class PriceFetcher {
 
     private PriceResponse createErrorResponse() {
 
-        return new PriceResponse(true, 0);
+        return new PriceResponse(true, null, "0");
     }
 
     public void dispatchRequest(final PriceResponseListener listener) {
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, REQUEST_URL, null,
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.GET, REQUEST_URL+MainActivity.stockName, null,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
 
                         try {
-                            PriceResponse res = new PriceResponse(false, response.getJSONObject("Global Quote")
-                                    .getDouble("05. price"));
+                            PriceResponse res = new PriceResponse(false, response.getString("symbol"),
+                            response.getString("price"));
                             listener.onResponse(res);
                         }
                         catch (JSONException e) {

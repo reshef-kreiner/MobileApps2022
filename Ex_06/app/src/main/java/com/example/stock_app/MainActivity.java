@@ -13,25 +13,23 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView nameTextView;
+    TextView resultText;
     EditText nameInput;
-    String stockName;
+    static String stockName;
     Button priceButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //nameInput = (EditText) findViewById(R.id.nameInput);
-        //nameTextView = (TextView) findViewById(R.id.nameTextView);
-        
+        nameInput = (EditText) findViewById(R.id.nameInput);
+        resultText= (TextView) findViewById(R.id.resultTextView);
         priceButton = findViewById(R.id.getPriceButton);
 
         priceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //stockName = nameInput.getText().toString();
-                //Log.i("MainActivity", stockName);
+                stockName = (String) nameInput.getText().toString();
                 fetchPrice(v);
             }
         });
@@ -48,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(v.getContext(), "Error while fetching price", Toast.LENGTH_LONG);
                     return;
                 }
-                ((TextView)MainActivity.this.findViewById(R.id.resultTextView)).setText(String.valueOf(response.stockPrice));
+                resultText.setText(response.stockPrice);
             }
         });
     }
