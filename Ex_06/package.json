@@ -1,0 +1,15 @@
+{
+  "name": "ex_06",
+  "version": "1.0.0",
+  "description": "\"The stock app\"",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Reshef Kreiner",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.2",
+    "request": "^2.88.2"
+  }
+}
